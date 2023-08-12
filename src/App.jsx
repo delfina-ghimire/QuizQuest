@@ -5,6 +5,7 @@ import Error from "./components/Error";
 import MainBody from "./components/MainBody";
 import StartScreen from "./components/StartScreen";
 import Question from "./components/Question";
+import NextBtn from "./components/NextBtn";
 
 const initailState = {
   question: [],
@@ -48,6 +49,13 @@ function reducer(state, action) {
             : state.points,
       };
 
+    case "nextQuestion":
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null,
+      };
+
     default:
       throw new Error("Action is unknown");
   }
@@ -78,11 +86,14 @@ function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextBtn dispatch={dispatch} answer={answer} />
+          </>
         )}
       </MainBody>
     </div>
